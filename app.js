@@ -46,16 +46,15 @@ const CONFIG = {
  */
 function handleCommand(msg, cmd, args) {
     const channel = msg.channel;
-    console.log('msg');
+    
     switch (cmd) {
         case "test":
-            channel.send("1...");
-            channel.send("2...");
-            channel.send("3!");
+            channel.send(verses.suffering[0].verse);
+            channel.send(verses.suffering[1].verse);
             break;
         default:
             msg.reply(
-                `You used the command '!${cmd}' with these arguments: [${args.join(
+                `You used the command '+${cmd}' with these arguments: [${args.join(
                     ", "
                 )}]`
             );
