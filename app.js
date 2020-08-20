@@ -7,6 +7,7 @@
 /*******************
  * Library Imports *
  *******************/
+var verses = require('./verses.js');
 require('dotenv').config();
 const colors = require("chalk");
 const Discord = require("discord.js");
@@ -25,8 +26,8 @@ const CONFIG = {
     },
     // Activity shown when the bot appears 'online'
     defaultActivity: {
-        type: "PLAYING", // Activity types: 'PLAYING', 'STREAMING', 'LISTENING', 'WATCHING'
-        message: "Animal Crossing",
+        type: "LISTENING", // Activity types: 'PLAYING', 'STREAMING', 'LISTENING', 'WATCHING'
+        message: "Psalms",
     },
 };
 
