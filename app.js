@@ -46,7 +46,7 @@ const CONFIG = {
  */
 function handleCommand(msg, cmd, args) {
     const channel = msg.channel;
-
+    console.log('msg');
     switch (cmd) {
         case "test":
             channel.send("1...");
@@ -109,10 +109,10 @@ client.on("ready", () => {
 client.on("message", (msg) => {
     logMessageWithColors(msg);
 
-    // Message is a command (preceded by an exclaimation mark)
-    if (msg.content[0] === "!") {
+    // Message is a command (preceded by an plus mark)
+    if (msg.content[0] === "+") {
         let words = msg.content.split(" "),
-            cmd = words.shift().split("!")[1], // First word, sans exclaimation mark
+            cmd = words.shift().split("+")[1], // First word, sans plus mark
             args = words; // Everything after first word as an array
 
         handleCommand(msg, cmd, args);

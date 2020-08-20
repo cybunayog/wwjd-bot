@@ -41,20 +41,6 @@ module.exports = {
             "verse" : "",
         },
     ],
-    content: [
-        {
-            "verse" : "",
-        },
-        {
-            "verse" : "",
-        },
-        {
-            "verse" : "",
-        },
-        {
-            "verse" : "",
-        },
-    ],
     joy: [
         {
             "verse" : "",
