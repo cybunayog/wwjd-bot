@@ -27,7 +27,7 @@ const CONFIG = {
     // Activity shown when the bot appears 'online'
     defaultActivity: {
         type: "LISTENING", // Activity types: 'PLAYING', 'STREAMING', 'LISTENING', 'WATCHING'
-        message: "Psalms",
+        message: "Songs of Solomon",
     },
 };
 
@@ -46,17 +46,22 @@ const CONFIG = {
  */
 function handleCommand(msg, cmd, args) {
     const channel = msg.channel;
+
+    // Generates random number from 0 to 1
+    const randomNumber = Math.floor(Math.random() * 2)
     
     switch (cmd) {
-        case "test":
-            channel.send(verses.suffering[0].verse);
-            channel.send(verses.suffering[1].verse);
+        case "sad":
+        case "depressed":
+        case "suffering":
+            channel.send(verses.suffering[randomNumber].verse);
+            break;
+        case "love":
+            channel.send(verses.love[randomNumber].verse);
             break;
         default:
             msg.reply(
-                `You used the command '+${cmd}' with these arguments: [${args.join(
-                    ", "
-                )}]`
+                `I'm sorry, the command '+${cmd}' does not exist :(`
             );
             break;
     }

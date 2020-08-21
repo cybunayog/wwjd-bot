@@ -20,7 +20,7 @@ module.exports = {
             "verse" : "Love suffers long and is kind; love does not envy; love does not parade itself, is not puffed up; does not behave rudely, does not seek its own, is not provoked, thinks no evil. - 1 Corinthians 13:4-5",
         },
         {
-            "verse" : "But above all these things put on love, which is the bond of perfection. - Collosians 3:14",
+            "verse" : "But above all these things put on love, which is the bond of perfection. - Colossians 3:14",
         },
     ],
     worry: [
