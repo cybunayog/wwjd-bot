@@ -38,7 +38,7 @@ const CONFIG = {
 /**
  *  Handle a command from a Discord user.
  *
- *  @param  {Object}    msg         The message object.
+ *  @param  {Object}    msg         The message object. https://discord.js.org/#/docs/main/stable/class/Message
  *  @param  {String}    command     The `commandName` part of the message.
  *  @param  {Array}     args        The optional list of arguments from the message.
  *
@@ -58,6 +58,27 @@ function handleCommand(msg, cmd, args) {
             break;
         case "love":
             channel.send(verses.love[randomNumber].verse);
+            break;
+        case "worry":
+        case "doubt":
+        case "confusion":
+        case "confused":
+        case "scared":
+            channel.send(verses.worry[randomNumber].verse);
+            break;
+        case "joy":
+        case "happiness":
+        case "happy":
+        case "estatic":
+            channel.send(verses.joy[randomNumber].verse);
+            break;
+        case "help":
+            msg.reply(`\nHere are the list of available commands to use:\n
+            +help\n
+            +suffering\n
+            +love\n
+            +worry\n
+            +joy`);
             break;
         default:
             msg.reply(
