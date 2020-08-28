@@ -25,16 +25,16 @@ function callAPI(query) {
             'api-key': process.env.BIBLE_API_TOKEN,
         }
     };
-    request(options, { json: true }, (err, res) => {
-        if (err) throw new Error(err);
-         // console.log(response.body);
+    request(options, function (error, response) {
+        if (error) throw new Error(error);
+        // console.log(response.body);
         data = response.body;
-        // console.log("CHECK DATA:\n" + data);
-        // console.log("CHECK URL:" + options.url);
+        console.log("CHECK DATA:\n" + data);
+        console.log("CHECK URL:" + options.url);
         const randomNumber = Math.floor(Math.random() * 2);
-
+        
         return data;
-    })
+    });
 }
 
 /*********************
