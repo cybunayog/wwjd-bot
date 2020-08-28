@@ -7,10 +7,35 @@
 /*******************
  * Library Imports *
  *******************/
-var verses = require('./verses.js');
 require('dotenv').config();
 const colors = require("chalk");
 const Discord = require("discord.js");
+
+/*******************
+ * API Handling *
+ *******************/
+var request = require('request');
+var data = "";
+
+function callAPI(query) {
+    var options = {
+        'method': 'GET',
+        'url': `https://api.scripture.api.bible/v1/bibles/de4e12af7f28f599-01/search?query=${query}`,
+        'headers': {
+            'api-key': process.env.BIBLE_API_TOKEN,
+        }
+    };
+    request(options, { json: true }, (err, res) => {
+        if (err) throw new Error(err);
+         // console.log(response.body);
+        data = response.body;
+        // console.log("CHECK DATA:\n" + data);
+        // console.log("CHECK URL:" + options.url);
+        const randomNumber = Math.floor(Math.random() * 2);
+
+        return data;
+    })
+}
 
 /*********************
  * Global Properties *
@@ -48,29 +73,24 @@ function handleCommand(msg, cmd, args) {
     const channel = msg.channel;
 
     // Generates random number from 0 to 1
-    const randomNumber = Math.floor(Math.random() * 2)
+    const randomNumber = Math.floor(Math.random() * 2);
     
     switch (cmd) {
         case "sad":
-        case "depressed":
-        case "suffering":
-            channel.send(verses.suffering[randomNumber].verse);
+            callAPI("sad");
+            // channel.send(verses.suffering[randomNumber].verse);
             break;
         case "love":
-            channel.send(verses.love[randomNumber].verse);
+            // channel.send(verses.love[randomNumber].verse);
             break;
         case "worry":
-        case "doubt":
-        case "confusion":
-        case "confused":
-        case "scared":
-            channel.send(verses.worry[randomNumber].verse);
+            // channel.send(verses.worry[randomNumber].verse);
             break;
         case "joy":
-        case "happiness":
-        case "happy":
-        case "estatic":
-            channel.send(verses.joy[randomNumber].verse);
+            // channel.send(verses.joy[randomNumber].verse);
+            break;
+        case "verse me":
+            
             break;
         case "help":
             msg.reply(`\nHere are the list of available commands to use:\n
