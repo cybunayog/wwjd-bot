@@ -14,27 +14,41 @@ const Discord = require("discord.js");
 /*******************
  * API Handling *
  *******************/
-var request = require('request');
-var data = "";
+const request = require('request');
 
 function callAPI(query) {
-    var options = {
+    const options = {
         'method': 'GET',
         'url': `https://api.scripture.api.bible/v1/bibles/de4e12af7f28f599-01/search?query=${query}`,
         'headers': {
             'api-key': process.env.BIBLE_API_TOKEN,
         }
     };
-    request(options, function (error, response) {
-        if (error) throw new Error(error);
-        // console.log(response.body);
-        data = response.body;
-        console.log("CHECK DATA:\n" + data);
-        console.log("CHECK URL:" + options.url);
-        const randomNumber = Math.floor(Math.random() * 2);
-        
-        return data;
+    return new Promise((resolve, reject) => {
+        request(options, function (error, response) {
+            if (error) return reject(error);
+            try {
+                const apiResponse = resolve(JSON.parse(response.body));
+                return apiResponse;
+            } catch (e) {
+                reject("callAPI() error: " + e);
+            }
+        });
     });
+
+}
+
+function fetchVerses(query) {
+    let verseData = callAPI(query)
+        .then(res => {
+            var data = res.data;
+            return data;
+        })
+        .catch(err => {
+            console.log("fetchVerses err: " + err);
+        });
+    
+    return verseData;
 }
 
 /*********************
@@ -72,13 +86,23 @@ const CONFIG = {
 function handleCommand(msg, cmd, args) {
     const channel = msg.channel;
 
-    // Generates random number from 0 to 1
-    const randomNumber = Math.floor(Math.random() * 2);
-    
     switch (cmd) {
         case "sad":
-            callAPI("sad");
-            // channel.send(verses.suffering[randomNumber].verse);
+            fetchVerses("sad")
+                .then(result => {
+                    console.log("handleCommand(): " + result);
+                    var limit = result.data.limit;
+                    var randomNumber = Math.floor(Math.random() * limit);
+                    var scripture = result.data.verses[randomNumber].text;
+                    var chapter = result.data.verses[randomNumber].reference;
+                    var verse = `"${scripture}" - ${chapter}`;
+                    channel.send(verse);
+                })
+                .catch(err => {
+                    console.log("handleCommand(): " + err);
+                    channel.send("Something went wrong with this command :(");
+                })
+            // channel.send(fetchVerses("sad"));
             break;
         case "love":
             // channel.send(verses.love[randomNumber].verse);
@@ -143,7 +167,6 @@ client.on("ready", () => {
 
     // Join the 'general' channel
     client.channels.fetch(CONFIG.channels.general).then((channel) => {
-        channel.send("Discord bot has joined the channel");
         console.log(
             colors.yellow(`Joined a channel: ${colors.yellow(channel.name)}`)
         );
