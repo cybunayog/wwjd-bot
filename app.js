@@ -16,7 +16,7 @@ const Discord = require("discord.js");
  *******************/
 const request = require('request');
 
-function callAPI(query) {
+async function callAPI(query) {
     const options = {
         'method': 'GET',
         'url': `https://api.scripture.api.bible/v1/bibles/de4e12af7f28f599-01/search?query=${query}`,
@@ -108,7 +108,7 @@ function handleCommand(msg, cmd, args) {
                 .setTitle('Need a hand?')
                 .setDescription('Here are the available commands to use for this bot.')
                 .addFields(
-                    { name: '+verse', value: 'Responds a verse based on what you\'re feeling. \nexamples:\n+verse sad\n+verse happy\n+verse heathen' },
+                    { name: '+verse', value: 'Responds a verse based on what you\'re feeling.\nexamples:\n+verse sad\n+verse happy\n+verse blessed\n+verse love' },
                     { name: '+help', value: 'Responds a list of commands that are available for this bot.'}
                 )
             channel.send(helpEmbed);
