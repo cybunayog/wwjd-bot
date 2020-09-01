@@ -86,75 +86,12 @@ const CONFIG = {
 function handleCommand(msg, cmd, args) {
     const channel = msg.channel;
     var limit, randomNumber, verse = null;
+    let query = args[0];
 
     switch (cmd) {
-        case "sad":
-            fetchVerses("sad")
-                .then(result => {
-                    limit = result.limit;
-                    randomNumber = Math.floor(Math.random() * limit);
-                    verse = `"${result.verses[randomNumber].text}" - ${result.verses[randomNumber].reference}`;
-                    channel.send(verse);
-                })
-                .catch(err => {
-                    console.log("rejected handleCommand(): " + err);
-                    channel.send("Something went wrong with this command :(");
-                });
-            break;
-        case "love":
-            fetchVerses("love")
-                .then(result => {
-                    limit = result.limit;
-                    randomNumber = Math.floor(Math.random() * limit);
-                    verse = `"${result.verses[randomNumber].text}" - ${result.verses[randomNumber].reference}`;
-                    channel.send(verse);
-                })
-                .catch(err => {
-                    console.log("rejected handleCommand(): " + err);
-                    channel.send("Something went wrong with this command :(");
-                });
-            break;
-        case "worry":
-            fetchVerses("worry")
-                .then(result => {
-                    limit = result.limit;
-                    randomNumber = Math.floor(Math.random() * limit);
-                    verse = `"${result.verses[randomNumber].text}" - ${result.verses[randomNumber].reference}`;
-                    channel.send(verse);
-                })
-                .catch(err => {
-                    console.log("rejected handleCommand(): " + err);
-                    channel.send("Something went wrong with this command :(");
-                });
-            break;
-        case "joy":
-            fetchVerses("joy")
-                .then(result => {
-                    limit = result.limit;
-                    randomNumber = Math.floor(Math.random() * limit);
-                    verse = `"${result.verses[randomNumber].text}" - ${result.verses[randomNumber].reference}`;
-                    channel.send(verse);
-                })
-                .catch(err => {
-                    console.log("rejected handleCommand(): " + err);
-                    channel.send("Something went wrong with this command :(");
-                });
-            break;
-        case "mad":
-            fetchVerses("mad")
-                .then(result => {
-                    limit = result.limit;
-                    randomNumber = Math.floor(Math.random() * limit);
-                    verse = `"${result.verses[randomNumber].text}" - ${result.verses[randomNumber].reference}`;
-                    channel.send(verse);
-                })
-                .catch(err => {
-                    console.log("rejected handleCommand(): " + err);
-                    channel.send("Something went wrong with this command :(");
-                });
-            break;
-        case "encouragement":
-                fetchVerses("encouragement")
+        case "verse":
+            console.log(`Selected query ${query}`);
+            fetchVerses(query)
                 .then(result => {
                     limit = result.limit;
                     randomNumber = Math.floor(Math.random() * limit);
@@ -167,12 +104,14 @@ function handleCommand(msg, cmd, args) {
                 });
             break;
         case "help":
-            msg.reply(`\nHere are the list of available commands to use:\n
-            +help\n
-            +suffering\n
-            +love\n
-            +worry\n
-            +joy`);
+            const helpEmbed = new Discord.MessageEmbed()
+                .setTitle('Need a hand?')
+                .setDescription('Here are the available commands to use for this bot.')
+                .addFields(
+                    { name: '+verse', value: 'Responds a verse based on what you\'re feeling. \nexamples:\n+verse sad\n+verse happy\n+verse heathen' },
+                    { name: '+help', value: 'Responds a list of commands that are available for this bot.'}
+                )
+            channel.send(helpEmbed);
             break;
         default:
             msg.reply(
