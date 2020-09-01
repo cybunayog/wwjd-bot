@@ -4,7 +4,13 @@
     "dependencies": {
         "chalk": "^4.1.0",
         "discord.js": "^12.3.1",
+<<<<<<< HEAD
         "node": "^14.8.0"
+=======
+        "dotenv": "^8.2.0",
+        "node": "^14.8.0",
+        "request": "^2.88.2"
+>>>>>>> develop
     },
     "scripts": {
         "start": "node app.js"
