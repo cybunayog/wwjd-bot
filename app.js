@@ -115,8 +115,14 @@ function handleCommand(msg, cmd, args) {
                 .setTitle('Need a hand?')
                 .setDescription('Here are the available commands to use for this bot.')
                 .addFields(
-                    { name: '+verse', value: 'Responds a verse based on what you\'re feeling.\nexamples:\n+verse sad\n+verse happy\n+verse blessed\n+verse love' },
-                    { name: '+help', value: 'Lists commands that are available for this bot.' }
+                    {
+                        name: '+verse',
+                        value: 'Responds a verse based on what you\'re feeling.\n--------------------\nExamples: \n+verse sad\n+verse happy\n+verse blessed\n+verse love\n--------------------'
+                    },
+                    {
+                        name: '+help',
+                        value: 'Lists commands that are available for this bot.'
+                    }
                 );
             channel.send(embed);
             break;
