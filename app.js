@@ -7,12 +7,6 @@
 /*******************
  * Library Imports *
  *******************/
-<<<<<<< HEAD
-
-const colors = require("chalk");
-const Discord = require("discord.js");
-
-=======
 require('dotenv').config();
 const colors = require("chalk");
 const Discord = require("discord.js");
@@ -57,7 +51,6 @@ function fetchVerses(query) {
     return verseData;
 }
 
->>>>>>> develop
 /*********************
  * Global Properties *
  *********************/
@@ -65,24 +58,15 @@ function fetchVerses(query) {
 // Config properties
 const CONFIG = {
     // Bot token
-<<<<<<< HEAD
-    token: "",
-=======
     token: process.env.BOT_TOKEN,
->>>>>>> develop
     // Channel IDs
     channels: {
         general: "",
     },
     // Activity shown when the bot appears 'online'
     defaultActivity: {
-<<<<<<< HEAD
-        type: "PLAYING", // Activity types: 'PLAYING', 'STREAMING', 'LISTENING', 'WATCHING'
-        message: "Animal Crossing",
-=======
         type: "LISTENING", // Activity types: 'PLAYING', 'STREAMING', 'LISTENING', 'WATCHING'
         message: "Songs of Solomon",
->>>>>>> develop
     },
 };
 
@@ -93,11 +77,7 @@ const CONFIG = {
 /**
  *  Handle a command from a Discord user.
  *
-<<<<<<< HEAD
- *  @param  {Object}    msg         The message object.
-=======
  *  @param  {Object}    msg         The message object. https://discord.js.org/#/docs/main/stable/class/Message
->>>>>>> develop
  *  @param  {String}    command     The `commandName` part of the message.
  *  @param  {Array}     args        The optional list of arguments from the message.
  *
@@ -105,20 +85,6 @@ const CONFIG = {
  */
 function handleCommand(msg, cmd, args) {
     const channel = msg.channel;
-<<<<<<< HEAD
-
-    switch (cmd) {
-        case "test":
-            channel.send("1...");
-            channel.send("2...");
-            channel.send("3!");
-            break;
-        default:
-            msg.reply(
-                `You used the command '!${cmd}' with these arguments: [${args.join(
-                    ", "
-                )}]`
-=======
     var limit, randomNumber, verse = null;
 
     switch (cmd) {
@@ -211,7 +177,6 @@ function handleCommand(msg, cmd, args) {
         default:
             msg.reply(
                 `I'm sorry, the command '+${cmd}' does not exist :(`
->>>>>>> develop
             );
             break;
     }
@@ -252,10 +217,6 @@ client.on("ready", () => {
 
     // Join the 'general' channel
     client.channels.fetch(CONFIG.channels.general).then((channel) => {
-<<<<<<< HEAD
-        channel.send("Discord bot has joined the channel");
-=======
->>>>>>> develop
         console.log(
             colors.yellow(`Joined a channel: ${colors.yellow(channel.name)}`)
         );
@@ -266,17 +227,10 @@ client.on("ready", () => {
 client.on("message", (msg) => {
     logMessageWithColors(msg);
 
-<<<<<<< HEAD
-    // Message is a command (preceded by an exclaimation mark)
-    if (msg.content[0] === "!") {
-        let words = msg.content.split(" "),
-            cmd = words.shift().split("!")[1], // First word, sans exclaimation mark
-=======
     // Message is a command (preceded by an plus mark)
     if (msg.content[0] === "+") {
         let words = msg.content.split(" "),
             cmd = words.shift().split("+")[1], // First word, sans plus mark
->>>>>>> develop
             args = words; // Everything after first word as an array
 
         handleCommand(msg, cmd, args);
