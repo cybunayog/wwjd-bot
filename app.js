@@ -87,6 +87,7 @@ function handleCommand(msg, cmd, args) {
     const channel = msg.channel;
     var limit, randomNumber, verse = null;
     let query = args[0];
+    const embed = new Discord.MessageEmbed();
 
     switch (cmd) {
         case "verse":
@@ -96,26 +97,32 @@ function handleCommand(msg, cmd, args) {
                     limit = result.limit;
                     randomNumber = Math.floor(Math.random() * limit);
                     verse = `"${result.verses[randomNumber].text}" - ${result.verses[randomNumber].reference}`;
-                    channel.send(verse);
+                    embed
+                        .setTitle(`${query.charAt(0).toUpperCase() + query.slice(1)}?`)
+                        .setDescription(verse);
+                    channel.send(embed);
                 })
                 .catch(err => {
                     console.log("rejected handleCommand(): " + err);
-                    channel.send("Something went wrong with this command :(");
+                    embed
+                        .setTitle("Oops,")
+                        .setDescription("Looks like I never written it :( Maybe try again?");
+                    channel.send(embed);
                 });
             break;
         case "help":
-            const helpEmbed = new Discord.MessageEmbed()
+            embed
                 .setTitle('Need a hand?')
                 .setDescription('Here are the available commands to use for this bot.')
                 .addFields(
                     { name: '+verse', value: 'Responds a verse based on what you\'re feeling.\nexamples:\n+verse sad\n+verse happy\n+verse blessed\n+verse love' },
-                    { name: '+help', value: 'Responds a list of commands that are available for this bot.'}
-                )
-            channel.send(helpEmbed);
+                    { name: '+help', value: 'Lists commands that are available for this bot.' }
+                );
+            channel.send(embed);
             break;
         default:
             msg.reply(
-                `I'm sorry, the command '+${cmd}' does not exist :(`
+                `I'm sorry, the command '+${cmd}' does not exist :( Go ahead and try again!`
             );
             break;
     }
