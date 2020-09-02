@@ -1,6 +1,8 @@
-WWJD 'What would Jesus do' Bot will send a bible verse based on emotion. Below is a setup on how to create a bit from scratch.
+# WWJD 'What would Jesus do' Bot 
 
-# Discord Node Chat Bot Template
+Send a bible verse based on user input.
+
+## Discord Node Chat Bot Template
 
 A simple Discord bot made with Node.js
 
