@@ -39,7 +39,7 @@ const CONFIG = {
  *  @param  {String}    command     The `commandName` part of the message.
  *  @param  {Array}     args        The optional list of arguments from the message.
  *
- *  @note - Discord messages which are treated as commands are expected to look like: "!commandName arg1 arg2 arg3".
+ *  @note - Discord messages which are treated as commands are expected to look like: "+commandName arg1 arg2 arg3".
  */
 function handleCommand(msg, cmd, args) {
     const channel = msg.channel;
