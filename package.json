@@ -1,5 +1,5 @@
 {
-    "name": "node-discord-bot-template",
+    "name": "wwjd",
     "version": "1.0.0",
     "dependencies": {
         "chalk": "^4.1.0",
@@ -10,5 +10,6 @@
     },
     "scripts": {
         "start": "node app.js"
-    }
+    },
+    "type": "module"
 }
