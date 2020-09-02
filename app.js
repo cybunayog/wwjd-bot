@@ -16,7 +16,7 @@ import Discord from 'discord.js';
 /*********************
  * Global Properties *
  *********************/
-const activities = ["Song of Solomon", "Psalms"];
+const activities = ["Song of Solomon", "Psalms", "Proverbs", "Lamentations", "Isaiah's Prophecies"];
 // Config properties
 const CONFIG = {
     // Bot token
@@ -67,6 +67,13 @@ function handleCommand(msg, cmd, args) {
                         .setDescription("Looks like I never written it :( Maybe try again?");
                     channel.send(embed);
                 });
+            break;
+        case "prayer":
+        case "prayers":
+        case "prayer request":
+            embed
+                .setTitle("Prayer Requests?");
+            channel.send(embed);
             break;
         case "help":
             embed
