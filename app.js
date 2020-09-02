@@ -7,66 +7,24 @@
 /*******************
  * Library Imports *
  *******************/
-require('dotenv').config();
-const colors = require("chalk");
-const Discord = require("discord.js");
-
-/*******************
- * API Handling *
- *******************/
-const request = require('request');
-
-async function callAPI(query) {
-    const options = {
-        'method': 'GET',
-        'url': `https://api.scripture.api.bible/v1/bibles/de4e12af7f28f599-01/search?query=${query}`,
-        'headers': {
-            'api-key': process.env.BIBLE_API_TOKEN,
-        }
-    };
-    return new Promise((resolve, reject) => {
-        request(options, function (error, response) {
-            if (error) return reject(error);
-            try {
-                const apiResponse = resolve(JSON.parse(response.body));
-                return apiResponse;
-            } catch (e) {
-                reject("callAPI() error: " + e);
-            }
-        });
-    });
-
-}
-
-function fetchVerses(query) {
-    let verseData = callAPI(query)
-        .then(res => {
-            var data = res.data;
-            return data;
-        })
-        .catch(err => {
-            console.log("fetchVerses err: " + err);
-        });
-    
-    return verseData;
-}
+import dotenv from 'dotenv';
+dotenv.config();
+import { fetchVerses } from './controllers/BibleAPIController.js';
+import colors from 'chalk';
+import Discord from 'discord.js';
 
 /*********************
  * Global Properties *
  *********************/
-
+const activities = ["Song of Solomon", "Psalms"];
 // Config properties
 const CONFIG = {
     // Bot token
     token: process.env.BOT_TOKEN,
-    // Channel IDs
-    channels: {
-        general: "",
-    },
     // Activity shown when the bot appears 'online'
     defaultActivity: {
         type: "LISTENING", // Activity types: 'PLAYING', 'STREAMING', 'LISTENING', 'WATCHING'
-        message: "Songs of Solomon",
+        message: activities[Math.floor(Math.random()* activities.length)],
     },
 };
 
@@ -166,13 +124,6 @@ client.on("ready", () => {
             type: CONFIG.defaultActivity.type,
         })
         .then();
-
-    // Join the 'general' channel
-    client.channels.fetch(CONFIG.channels.general).then((channel) => {
-        console.log(
-            colors.yellow(`Joined a channel: ${colors.yellow(channel.name)}`)
-        );
-    });
 });
 
 // Handle message from user
