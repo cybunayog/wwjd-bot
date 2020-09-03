@@ -90,7 +90,7 @@ function handleCommand(msg, cmd, args) {
                     },
                     {
                         name: '+help',
-                        value: 'Lists commands that are available for this bot.'
+                        value: 'List of commands that are available for this bot.'
                     }
                 );
             channel.send(embed);
