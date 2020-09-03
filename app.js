@@ -85,6 +85,10 @@ function handleCommand(msg, cmd, args) {
                         value: 'Responds a verse based on what you\'re feeling.\n--------------------\nExamples: \n+verse sad\n+verse happy\n+verse blessed\n+verse love\n--------------------'
                     },
                     {
+                        name: '+prayer\n+prayers\n+prayer request',
+                        value: 'Sends a link to APU\'s prayer request form.'
+                    },
+                    {
                         name: '+help',
                         value: 'Lists commands that are available for this bot.'
                     }
