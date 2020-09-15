@@ -49,6 +49,7 @@ function handleCommand(msg, cmd, args) {
 
     switch (cmd) {
         case "verse":
+
             console.log(`Selected query ${query}`);
             fetchVerses(query)
                 .then(result => {
@@ -62,9 +63,17 @@ function handleCommand(msg, cmd, args) {
                 })
                 .catch(err => {
                     console.log("rejected handleCommand(): " + err);
+                    var motivationVerses = [
+                        "Trust in the LORD with all thine heart; and lean not unto thine own understanding. In all thy ways acknowledge him, and he shall direct thy paths. - Proverbs 3:5-6",
+                        "But Jesus beheld them, and said unto them, With men this is impossible; but with God all things are possible - Matthew 19:26",
+                        "But my God shall supply all your need according to his riches in glory by Christ Jesus. - Philippians 4:19"
+                    ];
                     embed
                         .setTitle("Oops,")
-                        .setDescription("Looks like I never written it :( Maybe try again?");
+                        .setDescription(
+                            `Looks like it was never written :frowning2: But here's a verse to motivate you!\n\n
+                            ${motivationVerses[Math.floor(Math.random() * motivationVerses.length)]}`
+                        )
                     channel.send(embed);
                 });
             break;
@@ -72,7 +81,9 @@ function handleCommand(msg, cmd, args) {
         case "prayers":
         case "prayer request":
             embed
-                .setTitle("Prayer Requests?");
+                .setTitle("Prayer Requests?")
+                .setURL('https://formstack.apu.edu/forms/spring_2020_prayer_request_copy')
+                .setDescription("All prayer requests are confidential and will be sent to APU's Chapel Services.");
             channel.send(embed);
             break;
         case "help":
