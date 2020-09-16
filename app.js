@@ -124,22 +124,17 @@ function handleCommand(msg, cmd, args) {
                 .addFields(
                     {
                         name: '+verse',
-                        value: 'Responds a verse based on what you\'re feeling.\n--------------------\nExamples:\n+verse sad\n+verse happy\n+verse blessed\n+verse love\n--------------------'
+                        value: 'Responds a verse based on what you\'re feeling.\n--------------------\nExamples:\n+verse sad\n+verse happy\n+verse blessed\n+verse love\n+verse random\n--------------------'
                     },
                     {
                         name: '+prayer\n+prayers\n+prayer request',
                         value: 'Sends a link to APU\'s prayer request form.'
                     },
                     {
-                        name: '+random',
-                        value: 'Sends a random verse!'
-                    },
-                    {
                         name: '+help',
                         value: 'List of commands that are available for this bot.'
                     }
                 )
-                .setFooter('Use +verse random to get a random verse!');
             channel.send(embed);
             break;
         default:
