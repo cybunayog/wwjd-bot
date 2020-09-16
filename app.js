@@ -12,6 +12,7 @@ dotenv.config();
 import { fetchVerses } from './controllers/BibleAPIController.js';
 import colors from 'chalk';
 import Discord from 'discord.js';
+import { motivationVerses, randomQueries } from './utils/verses.js';
 
 /*********************
  * Global Properties *
@@ -49,34 +50,63 @@ function handleCommand(msg, cmd, args) {
 
     switch (cmd) {
         case "verse":
-
             console.log(`Selected query ${query}`);
-            fetchVerses(query)
-                .then(result => {
-                    limit = result.limit;
-                    randomNumber = Math.floor(Math.random() * limit);
-                    verse = `"${result.verses[randomNumber].text}" - ${result.verses[randomNumber].reference}`;
-                    embed
-                        .setTitle(`${query.charAt(0).toUpperCase() + query.slice(1)}?`)
-                        .setDescription(verse);
-                    channel.send(embed);
-                })
-                .catch(err => {
-                    console.log("rejected handleCommand(): " + err);
-                    var motivationVerses = [
-                        `"Trust in the LORD with all thine heart; and lean not unto thine own understanding. In all thy ways acknowledge him, and he shall direct thy paths." - Proverbs 3:5-6`,
-                        `"But Jesus beheld them, and said unto them, With men this is impossible; but with God all things are possible." - Matthew 19:26`,
-                        `"But my God shall supply all your need according to his riches in glory by Christ Jesus." - Philippians 4:19`,
-                        `"And he said unto me, My grace is sufficient for thee: for my strength is made perfect in weakness. Most gladly therefore will I rather glory in my infirmities, that the power of Christ may rest upon me." - 2 Corinthians 12:9`
-                    ];
-                    embed
-                        .setTitle("Oops,")
-                        .setDescription(
-                            `Looks like I never wrote it :frowning2:\nBut here's a verse to motivate you!\n\n
+
+            // If user wants a random query
+            if (query === 'random') {
+
+                console.log('RANDOM QUERY: ' + randomQueries[Math.floor(Math.random()* randomQueries.length)]);
+                fetchVerses(randomQueries[Math.floor(Math.random()* randomQueries.length)])
+                    .then(result => {
+                        limit = result.limit;
+                        randomNumber = Math.floor(Math.random() * limit);
+                        verse = `"${result.verses[randomNumber].text}" - ${result.verses[randomNumber].reference}`;
+                    
+                        // Displays verse as an embed
+                        embed
+                            .setTitle(`Here's a random verse!`)
+                            .setDescription(verse);
+                        channel.send(embed);
+                    })
+                    .catch(err => {
+                        console.log("rejected handleCommand(): " + err);
+                    
+                        // Displays message and verse as an embed
+                        embed
+                            .setTitle("Oops,")
+                            .setDescription(
+                                `Looks like it does not exist :frowning2:\nBut here's something to motivate you!\n\n
                             ${motivationVerses[Math.floor(Math.random() * motivationVerses.length)]}`
-                        )
-                    channel.send(embed);
-                });
+                            )
+                        channel.send(embed);
+                    });
+            } else {
+                // Get user's query
+                fetchVerses(query)
+                    .then(result => {
+                        limit = result.limit;
+                        randomNumber = Math.floor(Math.random() * limit);
+                        verse = `"${result.verses[randomNumber].text}" - ${result.verses[randomNumber].reference}`;
+                    
+                        // Displays verse as an embed
+                        embed
+                            .setTitle(`${query.charAt(0).toUpperCase() + query.slice(1)}?`)
+                            .setDescription(verse);
+                        channel.send(embed);
+                    })
+                    .catch(err => {
+                        console.log("rejected handleCommand(): " + err);
+                    
+                        // Displays message and verse as an embed
+                        embed
+                            .setTitle("Oops,")
+                            .setDescription(
+                                `Looks like it does not exist :frowning2:\nBut here's something to motivate you!\n\n
+                            ${motivationVerses[Math.floor(Math.random() * motivationVerses.length)]}`
+                            )
+                        channel.send(embed);
+                    });
+            }
             break;
         case "prayer":
         case "prayers":
@@ -94,23 +124,37 @@ function handleCommand(msg, cmd, args) {
                 .addFields(
                     {
                         name: '+verse',
-                        value: 'Responds a verse based on what you\'re feeling.\n--------------------\nExamples: \n+verse sad\n+verse happy\n+verse blessed\n+verse love\n--------------------'
+                        value: 'Responds a verse based on what you\'re feeling.\n--------------------\nExamples:\n+verse sad\n+verse happy\n+verse blessed\n+verse love\n--------------------'
                     },
                     {
                         name: '+prayer\n+prayers\n+prayer request',
                         value: 'Sends a link to APU\'s prayer request form.'
                     },
                     {
+                        name: '+random',
+                        value: 'Sends a random verse!'
+                    },
+                    {
                         name: '+help',
                         value: 'Lists commands that are available for this bot.'
                     }
-                );
+                )
+                .setFooter('Use +verse random to get a random verse!');
             channel.send(embed);
             break;
         default:
-            msg.reply(
-                `I'm sorry, the command '+${cmd}' does not exist :( Go ahead and try again!`
+            if (channel.type === 'dm') {
+                    msg.reply(
+                `I'm sorry, the command '+${cmd}' does not exist :frowning2: Go ahead and try again!`
             );
+            } else {
+                embed
+                    .setTitle("Oops,")
+                    .setDescription(
+                        `I'm sorry, the command '+${cmd}' does not exist :frowning2: Go ahead and try again!`
+                    )
+                    channel.send(embed);
+            }
             break;
     }
 }
@@ -163,10 +207,6 @@ client.on("message", (msg) => {
         return;
     }
 
-    // Handle messages that aren't commands
-    if (msg.content === "ping") {
-        msg.reply("pong");
-    }
 });
 
 // Login with the bot's token
