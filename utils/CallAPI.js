@@ -21,3 +21,24 @@ export async function callBibleAPI(query) {
         });
     });
 }
+
+export async function callESV(query) {
+    const options = {
+        'method': 'GET',
+        'url': `https://api.esv.org/v3/passage/search/?q=${query}`,
+        'headers': {
+            'Authorization': `Token ${process.env.ESV_API_TOKEN}`
+        }
+    };
+    return new Promise((resolve, reject) => {
+        request(options, function (error, response) {
+            if (error) return reject(err);
+            try {
+                const apiResponse = resolve(JSON.parse(response.body));
+                return apiResponse;
+            } catch (e) {
+                reject("callESV() error: " + e);
+            }
+        })
+    });
+}

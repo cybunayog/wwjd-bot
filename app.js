@@ -9,7 +9,7 @@
  *******************/
 import dotenv from 'dotenv';
 dotenv.config();
-import { fetchVerses } from './controllers/BibleAPIController.js';
+import { fetchESV, fetchVerses } from './controllers/BibleAPIController.js';
 import colors from 'chalk';
 import Discord from 'discord.js';
 import { motivationVerses, randomQueries } from './utils/verses.js';
@@ -44,7 +44,7 @@ const CONFIG = {
  */
 function handleCommand(msg, cmd, args) {
     const channel = msg.channel;
-    var limit, randomNumber, verse = null;
+    var randomNumber, verse = null;
     let query = args[0];
     const embed = new Discord.MessageEmbed();
 
@@ -55,21 +55,22 @@ function handleCommand(msg, cmd, args) {
             // If user wants a random query
             if (query === 'random') {
 
-                console.log('RANDOM QUERY: ' + randomQueries[Math.floor(Math.random()* randomQueries.length)]);
-                fetchVerses(randomQueries[Math.floor(Math.random()* randomQueries.length)])
+                console.log('RANDOM QUERY: ' + randomQueries[Math.floor(Math.random() * randomQueries.length)]);
+                fetchESV(randomQueries[Math.floor(Math.random() * randomQueries.length)])
                     .then(result => {
-                        limit = result.limit;
-                        randomNumber = Math.floor(Math.random() * limit);
-                        verse = `"${result.verses[randomNumber].text}" - ${result.verses[randomNumber].reference}`;
-                    
-                        // Displays verse as an embed
+                        console.log("From app.js: " + result);
+                        
+                        randomNumber = Math.floor(Math.random() * 12);
+                        console.log("Content: " + result.results[randomNumber].content);
+                        
+                        verse = `"${result.results[randomNumber].content}" - ${result.results[randomNumber].reference}`;
                         embed
                             .setTitle(`Here's a random verse!`)
                             .setDescription(verse);
                         channel.send(embed);
                     })
                     .catch(err => {
-                        console.log("rejected handleCommand(): " + err);
+                        console.error("rejected handleCommand(): " + err);
                     
                         // Displays message and verse as an embed
                         embed
@@ -79,15 +80,16 @@ function handleCommand(msg, cmd, args) {
                             ${motivationVerses[Math.floor(Math.random() * motivationVerses.length)]}`
                             )
                         channel.send(embed);
-                    });
+                    })
             } else {
                 // Get user's query
-                fetchVerses(query)
+                fetchESV(query)
                     .then(result => {
-                        limit = result.limit;
-                        randomNumber = Math.floor(Math.random() * limit);
-                        verse = `"${result.verses[randomNumber].text}" - ${result.verses[randomNumber].reference}`;
-                    
+                        console.log("From app.js: " + result);
+
+                        randomNumber = Math.floor(Math.random() * 12);
+
+                        verse = `"${result.results[randomNumber].content}" - ${result.results[randomNumber].reference}`;
                         // Displays verse as an embed
                         embed
                             .setTitle(`${query.charAt(0).toUpperCase() + query.slice(1)}?`)
@@ -95,7 +97,7 @@ function handleCommand(msg, cmd, args) {
                         channel.send(embed);
                     })
                     .catch(err => {
-                        console.log("rejected handleCommand(): " + err);
+                        console.error("rejected handleCommand(): " + err);
                     
                         // Displays message and verse as an embed
                         embed
