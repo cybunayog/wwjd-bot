@@ -76,8 +76,7 @@ function handleCommand(msg, cmd, args) {
                         embed
                             .setTitle("Oops,")
                             .setDescription(
-                                `Looks like it does not exist :frowning2:\nBut here's something to motivate you!\n\n
-                            ${motivationVerses[Math.floor(Math.random() * motivationVerses.length)]}`
+                                `Looks like it does not exist :frowning2:\nBut here's something to motivate you!\n\n${motivationVerses[Math.floor(Math.random() * motivationVerses.length)]}`
                             )
                         channel.send(embed);
                     })
@@ -103,8 +102,7 @@ function handleCommand(msg, cmd, args) {
                         embed
                             .setTitle("Oops,")
                             .setDescription(
-                                `Looks like it does not exist :frowning2:\nBut here's something to motivate you!\n\n
-                            ${motivationVerses[Math.floor(Math.random() * motivationVerses.length)]}`
+                                `Looks like it does not exist :frowning2:\nBut here's something to motivate you!\n\n${motivationVerses[Math.floor(Math.random() * motivationVerses.length)]}`
                             )
                         channel.send(embed);
                     });
