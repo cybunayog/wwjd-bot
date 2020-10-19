@@ -1,4 +1,4 @@
-import { callBibleAPI, callESV } from '../utils/CallAPI.js';
+import { callBibleAPI, callESV, callESVPassage } from '../utils/CallAPI.js';
 
 export function fetchVerses(query) {
     let verseData = callBibleAPI(query)
@@ -26,4 +26,18 @@ export function fetchESV(query) {
         });
     
     return verseData;
+}
+
+export function fetchPassage(query) {
+    let passageData = callESVPassage(query)
+        .then(res => {
+            var data = res;
+            console.log("fetchPassage()", data);
+            return data;
+        })
+        .catch(err => {
+            console.log("fetchPassage err:", err);
+        });
+    
+    return passageData;
 }

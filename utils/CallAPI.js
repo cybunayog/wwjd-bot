@@ -44,10 +44,10 @@ export async function callESV(query) {
     });
 }
 
-export async function fetchESVPassage(query) {
+export async function callESVPassage(query) {
     const options = {
         'method': 'GET',
-        'url': `https://api.esv.org/v3/passage/text/?q=${query}`,
+        'url': `https://api.esv.org/v3/passage/text/?q=${query}&include-footnotes=false&include-headings=false&include-verse-numbers=false`,
         'headers': {
             'Authorization': `Token ${process.env.ESV_API_TOKEN}`
         }

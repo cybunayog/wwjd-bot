@@ -9,7 +9,7 @@
  *******************/
 import dotenv from 'dotenv';
 dotenv.config();
-import { fetchESV, fetchVerses } from './controllers/BibleAPIController.js';
+import { fetchESV, fetchVerses, fetchPassage } from './controllers/BibleAPIController.js';
 import colors from 'chalk';
 import Discord from 'discord.js';
 import { motivationVerses, randomQueries } from './utils/verses.js';
@@ -44,11 +44,37 @@ const CONFIG = {
  */
 function handleCommand(msg, cmd, args) {
     const channel = msg.channel;
-    var randomNumber, verse = null;
+    var randomNumber, verse, passage = null;
     let query = args[0];
+    let response = args[0] + " " + args[1];
     const embed = new Discord.MessageEmbed();
 
     switch (cmd) {
+        case "passage":
+            console.log(`Selected passage ${response}`);
+            fetchPassage(response)
+                .then(result => {
+                    console.log("From app.js", result);
+                    passage = result.passages[0].split("\n\n  ");
+                    console.log(passage);
+                    var header = passage[0], text = passage[1];
+                    embed
+                        .setTitle(header)
+                        .setDescription(text);
+                    channel.send(embed);
+                })
+                .catch(err => {
+                    console.error("rejected handleCommand(): " + err);
+                    
+                        // Displays message and verse as an embed
+                        embed
+                            .setTitle("Oops,")
+                            .setDescription(
+                                `Looks like it does not exist :frowning2: Maybe try again?`
+                            )
+                        channel.send(embed);
+                });
+            break;
         case "verse":
             console.log(`Selected query ${query}`);
 
